@@ -76,11 +76,19 @@ class PostOrderIterative{
     APPROACH : -
 
     1) Create stack s and Node curr and assign it the root
+
+
     2) While stack is not empty or curr is not null we are gonna keep looping.
 
       a) If curr is not null then push into the stack and go to its left child.
-      b) If curr is null then pop from the stack and we check if popped item is right child of the root or not,if it is then keep popping.
-    
+
+      b) If curr is null then pop from the stack .In this we pop in 2 conditions only
+        1) If stack's top element right child is null ,then pop Or
+        2) If popped item is right child of the top of stack,if it is then keep popping.
+
+      c) Make  a temp node to store stack 's top element .When popping from stack store it in temp and print it.
+
+      4) And when temp is not null then make it equal to curr --> curr = temp
     */
 
     public void postorderWithOneStack(Node root){
@@ -89,25 +97,30 @@ class PostOrderIterative{
         Stack<Node> s = new Stack<>();
         
         while(curr!=null || !s.isEmpty()){
-
+             // if curr is not null push in the stack and go to left child
             if(curr!=null){
                 s.push(curr);
                 curr = curr.left;
             }
             else{
+                
 
-                Node temp = s.peek().right;
+
+                Node temp = s.peek().right;   // right child of stack's top element
 
                 if(temp==null){
+                    // 1) If temp is null then pop from stack 
                     temp = s.pop();
                     System.out.print(temp.data+" ");
-
+ 
+                    // 2) If stack is not empty and popped item is right child of stack's top then continue popping
                     while(!s.isEmpty() && temp == s.peek().right){
                         temp = s.pop();
                         System.out.print(temp.data+" ");
                     }
                 }
                 else{
+                    // if temp is not null then assign it to curr
                     curr = temp;
                 }
             }
@@ -147,3 +160,33 @@ class PostOrderIterative{
 
 }
 
+/* 
+
+##  APPROACH FOR ONE STACK METHOD IN HINGLISH
+
+1. Ek stack lena hai and ek curr node usko root ke equal krna h.
+
+2. Jabtak stack empty ni hota ya curr node null nahi hota tab tak while loop run hoga.
+
+    1) agr curr null nahi h to stack me push karo and curr ke left child me jao.And again usko stack me push kro firse 
+       jabtak left child null ni pahuch jata.
+    2) agar curr null ho jata h to hum pop krenge stack se.
+
+    3) Hum ek temp node lenge aur usko stack ke top element ke right child ke equal krdenge. 
+       [Node temp = st.peek().right]
+
+    4) Hum stack me se sirf 2 conditions me hi pop krenge    (temp null h to)
+
+      a) Agar temp null  h to hum pop krenge stack se(iska mtlb stack's top 's right child is null) and print it.
+      b) agr popped item (in step a) right child h stack ke top ka,then pop it and print it untill
+
+                while(!s.isEmpty() && temp == s.peek().right){
+                                    temp = s.pop();
+                                    System.out.print(temp.data+" ");
+                                }
+
+     5) Agar temp null nahi h to --> curr = temp 
+   
+
+
+*/
